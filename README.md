@@ -3,7 +3,7 @@
 ### 02. run Dockerfile with this command...
 docker image build [container name]
 ### 03. mount static folder to our container 
-\n
+
 ## How to mount volume??
 ### 01. Download static Folder Here... 
 https://drive.google.com/drive/folders/1wzNi4iJiFpQXZtckvVLrfhNMflsr0leH?usp=sharing
