@@ -1,5 +1,5 @@
 ## How to use this code...
-### 01. Download cast_defection and unzip / pull cast_defection to your local computer
+### 01. Download API with Docker folder  / pull API with Docker to your local computer
 ### 02. run Dockerfile with this command...
 docker image build [container name]
 ### 03. mount static folder to our container
