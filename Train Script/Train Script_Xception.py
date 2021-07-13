@@ -16,8 +16,6 @@ print(f"tensorflow version: {tf.__version__}")
 
 # Constants
 
-LOG_DIR = '/content/drive/Shareddrives/Casting_data/Backbone Testing/Default Augmentation/TensorBoard-Casting/'
-
 train_path = '/Data/casting_data/train/'
 test_path = '/Data/casting_data/test/'
 
