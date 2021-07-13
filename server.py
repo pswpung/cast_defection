@@ -1,3 +1,4 @@
+from numpy.core.fromnumeric import shape
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.efficientnet import preprocess_input as effnet_preprocess_input
 from tensorflow.keras.applications.xception import preprocess_input as xception_preprocess_input
@@ -22,7 +23,9 @@ model_list = {'effnet': {'filename': 'EffNet.h5', 'image_size': 512},
 def prepeocess(image, size):
     import numpy as np
     img = image.read()
-    img = Image.open(io.BytesIO(img)).resize((size, size))
+    img = Image.open(io.BytesIO(img))
+    img = img.convert("RGB")
+    img = img.resize((size, size))
     img = np.array(img)
     return np.expand_dims(img, axis=0)
 
