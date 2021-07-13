@@ -30,4 +30,4 @@ docker run -v "$pwd/static:/cast_API/static" -d -p [stati local path]:5000 [cont
   <li>Parameter : image (uploading image file)</li>
 </ul>
 
-full documentation --> 
+full documentation --> https://drive.google.com/file/d/1tRiZyBkgIQODHYKSbnKkPhYR5_MA_6KC/view?usp=sharing
