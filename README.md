@@ -1,5 +1,7 @@
 ## Cast Defection Classification
-
+![python-badge](https://img.shields.io/badge/python->=3.8-blue?logo=python)
+![tensorflow-badge](https://img.shields.io/badge/tensorfllow->=2.3-orange?logo=tensorflow)
+![flask-badge](https://img.shields.io/badge/flask->=2.0-white?logo=flask)
 ### Train Model
 01. Download [train folder](https://github.com/pswpung/cast_defection/tree/main/train)
 02. Download Dataset casting_data from [kaggle dataset of cast product](https://www.kaggle.com/ravirajsinh45/real-life-industrial-dataset-of-casting-product?select=casting_data) and locate in train folder. <br>
