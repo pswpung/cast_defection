@@ -1,56 +1,67 @@
-## Overview of cast_defection
- - API with Docker --> for creating Docker image
- - Train Script --> code for training model including EffNet, Xception and NASNetMobile
+## Cast Defection Classification
 
-## How to train our Model
-### 01. Download Train Script open Train Script_[model name].py example Train Script_EffNet.py
-### 02. Download Dataset casting_data from kaggle (https://www.kaggle.com/ravirajsinh45/real-life-industrial-dataset-of-casting-product?select=casting_data) and locate in Train Script folder. 
-The folder will look like...<br>
-Train Script<br>
-|- Train Script_EffNet.py<br>
-|- Train Script_NasNetMobile.py<br>
-|- Train Script_Xception.py<br>
-|- casting_data<br>
-
-### 03. change train_path and test_path to be your train and test path on your local computer
-for example : <br>
-train_path = "[your path]/Train Script/casting_data/casting_data/train/"<br>
-test_path = "[your path]/Train Script/casting_data/casting_data/test/"
-### 04. run the code with 
-example : python "Train Script_EffNet.py"
+### Train Model
+01. Download [train folder](https://github.com/pswpung/cast_defection/tree/main/train)
+02. Download Dataset casting_data from [kaggle dataset of cast product](https://www.kaggle.com/ravirajsinh45/real-life-industrial-dataset-of-casting-product?select=casting_data) and locate in train folder. <br>
+The train folder will look like...
+```
+     train
+       |- train_effnet.py
+       |- train_nasnetmobile.py
+       |- train_.py
+       |- casting_data
+```
+03. change train_path and test_path to be your path on local computer. 
+```
+train_path = "[train folder path]/train/casting_data/casting_data/train/"
+test_path = "[train folder path]/train/casting_data/casting_data/test/"
+```
+04. run the code below
+```python
+python train_effnet.py 
+```
 
 <br>
 
-## How to Create Docker Image...
-### 01. Download API with Docker folder
-### 02. run Dockerfile with this command...
+### Docker
+> Create Docker Container
+01. Download [Docker folder](https://github.com/pswpung/cast_defection/tree/main/Docker)
+02. run Dockerfile
+```
 docker image build [container name] .
-### 03. mount static folder to our container
+```
+03. mount static folder to our container
 
+> mount volume
+5. Download [static Folder](https://drive.google.com/drive/folders/1wzNi4iJiFpQXZtckvVLrfhNMflsr0leH?usp=sharing)
+6. open terminal and run this command
+```
+docker run -v "[static folder path]/static:cast_API/static" -d -p [local port]:5000 [container name]
+```
 <br>
 
-## How to mount volume??
-### 01. Download static Folder Here... 
-https://drive.google.com/drive/folders/1wzNi4iJiFpQXZtckvVLrfhNMflsr0leH?usp=sharing
-### 02. go to folder that contain static folder in terminal 
-### 03. run this commanad in terminal
-docker run -v "$pwd/static:/cast_API/static" -d -p [stati local path]:5000 [container name]
+### Endpoint API usage
+```
+01. Health Check 
+         URL       : host:port/healthcheck
+         Type      : GET
+         Parameter : -
+         Input     : -
+         Output    : {This server is healthy}
+         
+02. Predict 
+         URL       : http://host:port/predict/[Model Name]
+         Type      : POST
+         Parameter : image (uploading image file)
+         Input     : { 
+                       “image” : <image file1>,
+                       “image” : <image file2>, 
+                       “image” : <image file3}
+                     }
+         Output    : {
+                       {image file1_name : { “Predict”: <image file1_predict>, “Probability”: <image file1_predict>}}, 
+                       {image file2_name : { “Predict”: <image file2_predict>, “Probability”: <image file2_predict>}}, 
+                       {image file3_name : { “Predict”: <image file3_predict>, “Probability”: <image file3_predict>}}
+                     }
 
-<br>
-
-## Endpoint API usage
-01. Health Check <br>
-<ul>
-  <li>URL       : host:port/healthcheck</li>
-  <li>Type      : GET</li>
-  <li>Parameter : -</li>
-</ul>
-
-02. Predict <br>
-<ul>
-  <li>URL       : host:port/predict/[Model Name]</li>
-  <li>Type      : POST</li>
-  <li>Parameter : image (uploading image file)</li>
-</ul>
-
-full documentation --> https://drive.google.com/file/d/1tRiZyBkgIQODHYKSbnKkPhYR5_MA_6KC/view?usp=sharing
+```
