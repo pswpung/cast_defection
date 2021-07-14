@@ -23,8 +23,6 @@ test_path = "[train folder path]/train/casting_data/casting_data/test/"
 python train_effnet.py 
 ```
 
-<br>
-
 ### Docker
 > Create Docker Container
 01. Download [Docker folder](https://github.com/pswpung/cast_defection/tree/main/Docker)
@@ -40,7 +38,6 @@ docker image build [container name] .
 ```
 docker run -v "[static folder path]/static:cast_API/static" -d -p [local port]:5000 [container name]
 ```
-<br>
 
 ### Endpoint API usage
 ```
