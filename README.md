@@ -64,3 +64,5 @@ docker run -v "[static folder path]/static:cast_API/static" -d -p [local port]:5
                      }
 
 ```
+<hr>
+Autthor : Pasawee Pungrasmi
