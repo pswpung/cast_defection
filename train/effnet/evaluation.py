@@ -4,28 +4,34 @@ import seaborn as sns
 from sklearn.metrics import (accuracy_score, auc, confusion_matrix, f1_score,
                              recall_score, roc_curve)
 from tqdm import tqdm
+from tensorflow.python.keras.engine.functional import Functional
+from tensorflow.python.keras.preprocessing.image import DirectoryIterator
+from typing import List
+from numpy import ndarray
+from typing import Tuple
 
 
-def model_evaluation(model, test_gen):
+def model_evaluation(model: Functional, test_gen: DirectoryIterator) -> None:
     loss, accuracy = model.evaluate(test_gen)
     print(f"Loss :{loss:.4f} Accuracy:{accuracy*100:.4f}%")
 
 
-def predict(model, test_gen):
-    y_true, y_score = [], []
+def predict(model: Functional, test_gen: DirectoryIterator) -> Tuple[ndarray, ndarray]:
+    y_true: List = []
+    y_score: List = []
     for i, (x, y) in tqdm(enumerate(test_gen), total=len(test_gen)):
         y_true.append(y[0])
         y_score.append(model(x, training=False)[0][0].numpy())
         if i+1 > len(test_gen):
             break
-    y_true = np.array(y_true)
-    y_score = np.array(y_score)
+    y_true: ndarray = np.array(y_true)
+    y_score: ndarray = np.array(y_score)
     return y_true, y_score
 
 
-def visualize_model(thresh: float, y_true, y_score) -> None:
+def visualize_model(thresh: float, y_true: ndarray, y_score: ndarray) -> None:
     fpr, tpr, _ = roc_curve(y_true, y_score)
-    roc_auc = auc(fpr, tpr)
+    roc_auc: float = auc(fpr, tpr)
 
     plt.plot(fpr, tpr, color="darkorange", lw=2,
              label=f"ROC curve (area = {roc_auc:.2f})")
@@ -38,12 +44,12 @@ def visualize_model(thresh: float, y_true, y_score) -> None:
     plt.legend(loc="lower right")
     plt.show()
 
-    y_pred = np.array([1. if yi > thresh else 0. for yi in y_score])
+    y_pred: ndarray = np.array([1. if yi > thresh else 0. for yi in y_score])
 
-    acc = accuracy_score(y_true, y_pred)
-    f1 = f1_score(y_true, y_pred)
-    recall = recall_score(y_true, y_pred)
-    cm = confusion_matrix(y_true, y_pred)
+    acc: float = accuracy_score(y_true, y_pred)
+    f1: float = f1_score(y_true, y_pred)
+    recall: float = recall_score(y_true, y_pred)
+    cm: ndarray = confusion_matrix(y_true, y_pred)
 
     fig, ax = plt.subplots(1, 2, figsize=(9, 3))
     sns.heatmap(cm, annot=True, fmt="d", ax=ax[0])

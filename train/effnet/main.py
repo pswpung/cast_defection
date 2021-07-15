@@ -2,13 +2,15 @@ from argparse import ArgumentParser, Namespace
 import argparse
 
 import tensorflow as tf
+from tensorflow.python.keras.engine.functional import Functional
+from tensorflow.python.keras.preprocessing.image import DirectoryIterator
 
 from evaluation import model_evaluation, predict, visualize_model
 from model import get_model, split_data, train_model
 
 # constants variable
-train_path: str = './casting_data/casting_data/train/'
-test_path: str = './casting_data/casting_data/test/'
+train_path: str = '../casting_data/casting_data/train/'
+test_path: str = '../casting_data/casting_data/test/'
 
 
 def parser() -> Namespace:
@@ -20,10 +22,10 @@ def parser() -> Namespace:
     args: argparse.Namespace
     """
     parser: ArgumentParser = ArgumentParser()
-    parser.add_argument("--n_epochs", type=int, default=10,
+    parser.add_argument("--n_epochs", type=int, default=1,
                         help="Number of Epochs")
     parser.add_argument("--train_batch_size", type=int,
-                        default=10, help="Batch size")
+                        default=4, help="Batch size")
     parser.add_argument("--validation_split", type=float, default=0.2,
                         help="propotion for validation generater [0<= x <=1]")
     parser.add_argument("--thresh", type=float, default=0.5,
@@ -46,33 +48,20 @@ def main(args: argparse.Namespace) -> None:
     train_gen, val_gen, test_gen, validation_steps, steps_per_epoch = split_data(
         train_path, test_path, validation_split, input_size, train_batch_size)
 
-    test_gen_iter = iter(test_gen)
-    print(test_gen_iter)
-    sample = next(test_gen_iter)
-    print(sample)
+    tf.keras.backend.clear_session()
+    model: Functional = get_model(input_shape)
+    model.compile(
+        optimizer=tf.keras.optimizers.Adam(1e-4),
+        loss=tf.keras.losses.BinaryCrossentropy(),
+        metrics=['accuracy'])
+    train_model(model, train_gen, val_gen, n_epochs,
+                steps_per_epoch, validation_steps)
 
-    # tf.keras.backend.clear_session()
-    # model = get_model(input_shape)
-    # model.compile(
-    #     optimizer=tf.keras.optimizers.Adam(1e-4),
-    #     loss=tf.keras.losses.BinaryCrossentropy(),
-    #     metrics=['accuracy'])
-    # # train_model(model, train_gen, val_gen, n_epochs,
-    # #             steps_per_epoch, validation_steps)
-    # model.summary()
-
-    # model.fit(
-    #     train_gen,
-    #     validation_data=val_gen,
-    #     epochs=n_epochs,
-    #     steps_per_epoch=steps_per_epoch,
-    #     validation_steps=validation_steps
-    # )
-    # model_evaluation(model, test_gen)
-    # y_true, y_score = predict(model, test_gen)
-    # visualize_model(thresh, y_true, y_score)
+    model_evaluation(model, test_gen)
+    y_true, y_score = predict(model, test_gen)
+    visualize_model(thresh, y_true, y_score)
 
 
 if __name__ == "__main__":
-    args = parser()
+    args: Namespace = parser()
     main(args)
