@@ -1,14 +1,14 @@
+from typing import List, Tuple
+
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from sklearn.metrics import (accuracy_score, auc, confusion_matrix, f1_score,
-                             recall_score, roc_curve)
-from tqdm import tqdm
+from numpy import ndarray
+from sklearn.metrics import (
+    accuracy_score, auc, confusion_matrix, f1_score, recall_score, roc_curve)
 from tensorflow.python.keras.engine.functional import Functional
 from tensorflow.python.keras.preprocessing.image import DirectoryIterator
-from typing import List
-from numpy import ndarray
-from typing import Tuple
+from tqdm import tqdm
 
 
 def model_evaluation(model: Functional, test_gen: DirectoryIterator) -> None:

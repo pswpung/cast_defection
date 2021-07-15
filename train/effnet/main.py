@@ -1,5 +1,5 @@
-from argparse import ArgumentParser, Namespace
 import argparse
+from argparse import ArgumentParser, Namespace
 
 import tensorflow as tf
 from tensorflow.python.keras.engine.functional import Functional
@@ -7,6 +7,7 @@ from tensorflow.python.keras.preprocessing.image import DirectoryIterator
 
 from evaluation import model_evaluation, predict, visualize_model
 from model import get_model, split_data, train_model
+
 
 # constants variable
 train_path: str = '../casting_data/casting_data/train/'
