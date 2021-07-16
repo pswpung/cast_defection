@@ -104,6 +104,7 @@ def split_data(train_path: str, test_path: str, validation_split: float, input_s
         class_mode="binary",
         batch_size=1
     )
+
     validation_steps: int = len(val_gen) // train_batch_size
     steps_per_epoch: int = len(train_gen) // train_batch_size
     return train_gen, val_gen, test_gen, validation_steps, steps_per_epoch
