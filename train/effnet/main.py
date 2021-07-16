@@ -46,10 +46,13 @@ def main(args: argparse.Namespace) -> None:
     # create input shape
     input_shape: tuple(int, int, int) = (input_size, input_size, 3)
 
+    # split data
     train_gen, val_gen, test_gen, validation_steps, steps_per_epoch = split_data(
         train_path, test_path, validation_split, input_size, train_batch_size)
 
     tf.keras.backend.clear_session()
+
+    # declare and train model
     model: Functional = get_model(input_shape)
     model.compile(
         optimizer=tf.keras.optimizers.Adam(1e-4),
@@ -58,8 +61,11 @@ def main(args: argparse.Namespace) -> None:
     train_model(model, train_gen, val_gen, n_epochs,
                 steps_per_epoch, validation_steps)
 
+    # evaluate model by test_gen
     model_evaluation(model, test_gen)
     y_true, y_score = predict(model, test_gen)
+
+    # visualize the result
     visualize_model(thresh, y_true, y_score)
 
 
