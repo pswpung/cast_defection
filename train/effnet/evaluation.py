@@ -12,11 +12,40 @@ from tqdm import tqdm
 
 
 def model_evaluation(model: Functional, test_gen: DirectoryIterator) -> None:
+    """
+    evaluate trained model
+
+    Arguments
+    ----------
+    model: Functional
+        trained model
+    test_gen: DirectoryIterator
+        preprocessed dataset that used to test model
+
+    """
     loss, accuracy = model.evaluate(test_gen)
     print(f"Loss :{loss:.4f} Accuracy:{accuracy*100:.4f}%")
 
 
 def predict(model: Functional, test_gen: DirectoryIterator) -> Tuple[ndarray, ndarray]:
+    """
+    predict result by trained model
+
+    Arguments
+    ----------
+    model: Functional
+        trained model
+    test_gen: DirectoryIterator
+        preprocessed dataset that used to test model
+
+    Return
+    ----------
+    y_true: ndarray
+        array of answer for individual image
+    y_score: ndarray
+        array of predicted for individual image
+
+    """
     y_true: List = []
     y_score: List = []
     for i, (x, y) in tqdm(enumerate(test_gen), total=len(test_gen)):
@@ -30,6 +59,22 @@ def predict(model: Functional, test_gen: DirectoryIterator) -> Tuple[ndarray, nd
 
 
 def visualize_model(thresh: float, y_true: ndarray, y_score: ndarray) -> None:
+    """
+    visualize model
+        - ROC curve
+        - confusion Matrix
+        - Accuracy, Recall, F1-score
+
+    Arguments
+    ----------
+    thresh: float
+        threshold value for interpretation and seperate y_score to 'ok' or 'defect' 
+    y_true: ndarray
+        array of answer for individual image
+    y_score: ndarray
+        array of predicted for individual image
+
+    """
     fpr, tpr, _ = roc_curve(y_true, y_score)
     roc_auc: float = auc(fpr, tpr)
 
