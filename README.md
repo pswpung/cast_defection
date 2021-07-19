@@ -1,9 +1,9 @@
 ## Cast Defection Classification
-![python-badge](https://img.shields.io/badge/python->=3.8-blue?logo=python)
-![tensorflow-badge](https://img.shields.io/badge/tensorfllow->=2.3-orange?logo=tensorflow)
-![flask-badge](https://img.shields.io/badge/flask->=2.0-white?logo=flask)
+![python-badge](https://img.shields.io/badge/python->=3.8.10-blue?logo=python)
+![tensorflow-badge](https://img.shields.io/badge/tensorfllow->=2.5.0-orange?logo=tensorflow)
+![flask-badge](https://img.shields.io/badge/flask->=2.0.1-white?logo=flask)
 ### Train Model
-01. Download [train folder](https://github.com/pswpung/cast_defection/tree/main/train)
+01. Download [Cast-Defection Project](https://github.com/pswpung/cast_defection/Cast-Defection\ Project)
 02. Download Dataset casting_data from [kaggle dataset of cast product](https://www.kaggle.com/ravirajsinh45/real-life-industrial-dataset-of-casting-product?select=casting_data) and locate in train folder. <br>
 The train folder will look like...
 ```
@@ -26,9 +26,9 @@ python train_effnet.py
 ### Docker
 > Create Docker Container
 01. Download [Docker folder](https://github.com/pswpung/cast_defection/tree/main/Docker)
-02. run Dockerfile
+02. run Dockerfile at cast_defection directory
 ```
-docker image build [container name] .
+docker image build -t [container name] -f docker/Dockerfile .
 ```
 03. mount static folder to our container
 
@@ -36,7 +36,7 @@ docker image build [container name] .
 5. Download [static Folder](https://drive.google.com/drive/folders/1wzNi4iJiFpQXZtckvVLrfhNMflsr0leH?usp=sharing)
 6. open terminal and run this command
 ```
-docker run -v "[static folder path]/static:cast_API/static" -d -p [local port]:5000 [container name]
+docker run -v "[cast_defection path]/cast_defection/Cast-Defection Project/static:cast_API/static" -d -p [local port]:5000 [container name]
 ```
 
 ### Endpoint API usage
