@@ -3,38 +3,84 @@
 ![tensorflow-badge](https://img.shields.io/badge/tensorfllow->=2.5.0-orange?logo=tensorflow)
 ![flask-badge](https://img.shields.io/badge/flask->=2.0.1-white?logo=flask)
 ### Train Model
-01. Download [Cast-Defection Project](https://github.com/pswpung/cast_defection/Cast-Defection\ Project)
-02. Download Dataset casting_data from [kaggle dataset of cast product](https://www.kaggle.com/ravirajsinh45/real-life-industrial-dataset-of-casting-product?select=casting_data) and locate in train folder. <br>
+> **Guide for training model**
+01. Download [Cast-Defection Project](https://github.com/pswpung/cast_defection/tree/main/Cast-Defection%20Project)
+02. Download Dataset casting_data from [kaggle dataset of cast product](https://www.kaggle.com/ravirajsinh45/real-life-industrial-dataset-of-casting-product?select=casting_data) and locate in Cast-Defection Project folder. <br>
 The train folder will look like...
 ```
-     train
-       |- train_effnet.py
-       |- train_nasnetmobile.py
-       |- train_.py
-       |- casting_data
+     Cast-Defection Project
+            |- casting_data
+            |    |- test
+            |    |- train
+            |
+            |- train
+            |    |- effnet
+            |    |    |- main_effnet.py
+            |    |    |- model_effnet.py
+            |    |- nasnetmobile
+            |    |    |- main_nasnetmobile.py
+            |    |    |- model_nasnetmobile.py
+            |    |- xception
+            |    |    |- main_xception.py
+            |    |    |- model_xception.py
+            |    |- evaluation.py
+            |
+            |- server.py
 ```
-03. change train_path and test_path to be your path on local computer. 
-```
-train_path = "[train folder path]/train/casting_data/casting_data/train/"
-test_path = "[train folder path]/train/casting_data/casting_data/test/"
-```
-04. run the code below
+03. run the main_[model name].py to train a model and save model to static folder autocatically.<br>
+example code: 
 ```python
-python train_effnet.py 
+python main_effnet.py 
 ```
+after training all model. Cast - Defection Project will look like this ...
+```
+     Cast-Defection Project
+            |- casting_data
+            |    |- test
+            |    |- train
+            |
+            |- static
+            |    |- trained model
+            |         |-EffNet.h5
+            |         |-NasNetMobile.h5
+            |         |-Xception.h5
+            |        
+            |- train
+            |    |- effnet
+            |    |    |- main_effnet.py
+            |    |    |- model_effnet.py
+            |    |- nasnetmobile
+            |    |    |- main_nasnetmobile.py
+            |    |    |- model_nasnetmobile.py
+            |    |- xception
+            |    |    |- main_xception.py
+            |    |    |- model_xception.py
+            |    |- evaluation.py
+            |
+            |- server.py
+```
+> **Tips for training model.**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; you can adjust parameter without edit the python code by adding the configuration affter run "python main_[model name].py" like this "python main_[model_name].py [configuration]" (can add more than one configuration in the same time)
+| parameter | default value | configurtion | note |
+| ------------- | :---: | ------------- | ------------- |
+| Number of Epochs | 10 | --n_epochs = [value] |  |
+| Batch size | 4 | --train_batch_size = [value] |  |
+| propotion for validation generater | 0.2 | --validation_split = [value] | [0<= validation_split <=1] |
+| threshold value | 0.5 | --thresh = [value] | [0<= thresh <=1] |
+| image size | 512 for Effnet and Xception <br> 224 for NasNetMobile | --input_size = [value] | NasNet mobile <= 224 only |
 
 ### Docker
-> Create Docker Container
-01. Download [Docker folder](https://github.com/pswpung/cast_defection/tree/main/Docker)
-02. run Dockerfile at cast_defection directory
+> **Create Docker Container**
+01. Download [Docker folder](https://github.com/pswpung/cast_defection/tree/main/docker)
+02. run Dockerfile at cast_defection directory (parent directory)
 ```
 docker image build -t [container name] -f docker/Dockerfile .
 ```
 03. mount static folder to our container
-
-> mount volume
-5. Download [static Folder](https://drive.google.com/drive/folders/1wzNi4iJiFpQXZtckvVLrfhNMflsr0leH?usp=sharing)
-6. open terminal and run this command
+> **mount volume**
+01. Download [static Folder](https://drive.google.com/drive/folders/1wzNi4iJiFpQXZtckvVLrfhNMflsr0leH?usp=sharing) or use static folder that automatically create from train model
+02. open terminal and run the following command
 ```
 docker run -v "[cast_defection path]/cast_defection/Cast-Defection Project/static:cast_API/static" -d -p [local port]:5000 [container name]
 ```
