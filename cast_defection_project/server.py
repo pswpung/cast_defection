@@ -9,7 +9,7 @@ import io
 import os
 import numpy as np
 
-MODEL_PATH = os.path.join('static', 'trained model')
+MODEL_PATH = os.path.join('static', 'trained_model')
 
 app: Flask = Flask(__name__)
 app.config['UPLOAD_MODEL'] = MODEL_PATH
