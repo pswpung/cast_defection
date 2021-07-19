@@ -16,9 +16,25 @@ from evaluation import model_evaluation, predict, visualize_model
 # constants variable
 train_path: str = '../../casting_data/train/'
 test_path: str = '../../casting_data/test/'
-model_name: str = 'EffNet.h5'
-# model_path: str = 
-print(os.path.join('effnet', model_name))
+static_path: str = "../../static/trained model/"
+model_name: str = "EffNet.h5"
+model_save: str = os.path.join(static_path, model_name)
+
+def get_static(static_path: str) -> None:
+    """
+    create static/trained model to save trained model (h5 file)
+
+    Arguments
+    ----------
+    static_path : str
+        path of static folder
+    """
+    try:
+        os.makedirs(static_path)
+    except OSError as err:
+        print(err.strerror)
+    else:
+        print('Successfully created directory')
 
 def parser() -> Namespace:
     """
@@ -51,6 +67,9 @@ def main(args: argparse.Namespace) -> None:
     input_size: int = args.input_size
     # create input shape
     input_shape: tuple(int, int, int) = (input_size, input_size, 3)
+
+    # create static directory
+    get_static(static_path)
 
     # split data
     train_gen, val_gen, test_gen, validation_steps, steps_per_epoch = split_data(

@@ -1,7 +1,7 @@
 import argparse
+import os
 import sys
 from argparse import ArgumentParser, Namespace
-import os
 
 import tensorflow as tf
 from tensorflow.python.keras.engine.functional import Functional
@@ -12,12 +12,28 @@ from model_nasnetmobile import get_model, split_data, train_model
 sys.path.append("../")
 from evaluation import model_evaluation, predict, visualize_model
 
-
 # constants variable
-train_path: str = '../../casting_data/train/'
-test_path: str = '../../casting_data/test/'
-model_name: str = 'NasNetMobile.h5'
-# save_path: str = os.path.join('nasnetmobile', model_name)
+train_path: str = "../../casting_data/train/"
+test_path: str = "../../casting_data/test/"
+static_path: str = "../../static/trained model/"
+model_name: str = "NasNetMobile.h5"
+model_save: str = os.path.join(static_path, model_name)
+
+def get_static(static_path: str) -> None:
+    """
+    create static/trained model to save trained model (h5 file)
+
+    Arguments
+    ----------
+    static_path : str
+        path of static folder
+    """
+    try:
+        os.makedirs(static_path)
+    except OSError as err:
+        print(err.strerror)
+    else:
+        print('Successfully created directory')
 
 
 def parser() -> Namespace:
@@ -52,6 +68,9 @@ def main(args: argparse.Namespace) -> None:
     # create input shape
     input_shape: tuple(int, int, int) = (input_size, input_size, 3)
 
+    # create static directory
+    get_static(static_path)
+
     # split data
     train_gen, val_gen, test_gen, validation_steps, steps_per_epoch = split_data(
         train_path, test_path, validation_split, input_size, train_batch_size)
@@ -65,7 +84,7 @@ def main(args: argparse.Namespace) -> None:
         loss=tf.keras.losses.BinaryCrossentropy(),
         metrics=['accuracy'])
     train_model(model, train_gen, val_gen, n_epochs,
-                steps_per_epoch, validation_steps, model_name)
+                steps_per_epoch, validation_steps, model_save)
 
     # evaluate model by test_gen
     model_evaluation(model, test_gen)
