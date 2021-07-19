@@ -1,7 +1,7 @@
 ## Cast Defection Classification
-![python-badge](https://img.shields.io/badge/python->=3.8.10-blue?logo=python)
-![tensorflow-badge](https://img.shields.io/badge/tensorfllow->=2.5.0-orange?logo=tensorflow)
-![flask-badge](https://img.shields.io/badge/flask->=2.0.1-white?logo=flask)
+![python-badge](https://img.shields.io/badge/python-=3.8.10-blue?logo=python)
+![tensorflow-badge](https://img.shields.io/badge/tensorfllow-=2.5.0-orange?logo=tensorflow)
+![flask-badge](https://img.shields.io/badge/flask-=2.0.1-white?logo=flask)
 ### Train Model
 > **Guide for training model**
 01. Download [Cast-Defection Project](https://github.com/pswpung/cast_defection/tree/main/Cast-Defection%20Project)
