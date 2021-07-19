@@ -15,40 +15,15 @@ pip install -r requirement.txt
 ### Train Model
 > **Guide for training model**
 01. Download [Cast-Defection Project](https://github.com/pswpung/cast_defection/tree/main/Cast-Defection%20Project)
-02. Download Dataset casting_data from [kaggle dataset of cast product](https://www.kaggle.com/ravirajsinh45/real-life-industrial-dataset-of-casting-product?select=casting_data) and locate in Cast-Defection Project folder. <br>
-The train folder will look like...
-```
-     Cast-Defection Project
-            |- casting_data
-            |    |- test
-            |    |- train
-            |
-            |- train
-            |    |- effnet
-            |    |    |- main_effnet.py
-            |    |    |- model_effnet.py
-            |    |- nasnetmobile
-            |    |    |- main_nasnetmobile.py
-            |    |    |- model_nasnetmobile.py
-            |    |- xception
-            |    |    |- main_xception.py
-            |    |    |- model_xception.py
-            |    |- evaluation.py
-            |
-            |- server.py
-```
+02. Download Dataset casting_data from [kaggle dataset of cast product](https://www.kaggle.com/ravirajsinh45/real-life-industrial-dataset-of-casting-product?select=casting_data) and copy absolute path of casting_data folder
 03. run the main_[model name].py to train a model and save model to static folder autocatically.<br>
 example code: 
 ```python
-python main_effnet.py 
+python main_effnet.py --dataset_path ="absolute path of casting data"
 ```
 after training all model. Cast - Defection Project will look like this ...
 ```
      Cast-Defection Project
-            |- casting_data
-            |    |- test
-            |    |- train
-            |
             |- static
             |    |- trained model
             |         |-EffNet.h5
@@ -71,14 +46,15 @@ after training all model. Cast - Defection Project will look like this ...
 ```
 > **Tips for training model.**
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; you can adjust parameter without edit the python code by adding the configuration affter run "python main_[model name].py" like this "python main_[model_name].py [configuration]" (can add more than one configuration in the same time)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; you can adjust parameter without edit the python code directly by adding the configuration after run "python main_[model name].py" like this "python main_[model_name].py [configuration]" (can add more than one configuration in the same time)
 | parameter | default value | configurtion | note |
-| ------------- | :---: | ------------- | ------------- |
+| :--- | :---: | :--- | :--- |
+| casting_data path on your local machine | required | --dataset_path = [value] |  |
 | Number of Epochs | 10 | --n_epochs = [value] |  |
 | Batch size | 4 | --train_batch_size = [value] |  |
 | propotion for validation generater | 0.2 | --validation_split = [value] | [0<= validation_split <=1] |
 | threshold value | 0.5 | --thresh = [value] | [0<= thresh <=1] |
-| image size | 512 for Effnet and Xception <br> 224 for NasNetMobile | --input_size = [value] | NasNet mobile <= 224 only |
+| image size | 512 for Effnet and Xception <br> 224 for NasNetMobile | --input_size = [value] | NasNetMobile <= 224 |
 
 ### Docker
 > **Create Docker Container**
@@ -92,7 +68,7 @@ docker image build -t [container name] -f docker/Dockerfile .
 01. Download [static Folder](https://drive.google.com/drive/folders/1wzNi4iJiFpQXZtckvVLrfhNMflsr0leH?usp=sharing) or use static folder that automatically create from train model
 02. open terminal and run the following command
 ```
-docker run -v "[cast_defection path]/cast_defection/Cast-Defection Project/static:cast_API/static" -d -p [local port]:5000 [container name]
+docker run -v "[absolute path of cast_defection]/cast_defection/cast_defection_project/static:cast_API/static" -d -p [local port]:5000 [container name]
 ```
 
 ### Endpoint API usage
@@ -112,7 +88,7 @@ docker run -v "[cast_defection path]/cast_defection/Cast-Defection Project/stati
          Input     : { 
                        “image” : <image file1>,
                        “image” : <image file2>, 
-                       “image” : <image file3}
+                       “image” : <image file3>}
                      }
          Output    : {
                        {image file1_name : { “Predict”: <image file1_predict>, “Probability”: <image file1_predict>}}, 
