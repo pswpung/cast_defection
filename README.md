@@ -86,15 +86,16 @@ docker run -v "[cast_defection path]/cast_defection/Cast-Defection Project/stati
 ```
 
 ### Endpoint API usage
+> **01. Health Check**
 ```
-01. Health Check 
          URL       : host:port/healthcheck
          Type      : GET
          Parameter : -
          Input     : -
          Output    : {This server is healthy}
-         
-02. Predict 
+```         
+> **02. Predict**
+``` 
          URL       : http://host:port/predict/[Model Name]
          Type      : POST
          Parameter : image (uploading image file)
@@ -108,7 +109,6 @@ docker run -v "[cast_defection path]/cast_defection/Cast-Defection Project/stati
                        {image file2_name : { “Predict”: <image file2_predict>, “Probability”: <image file2_predict>}}, 
                        {image file3_name : { “Predict”: <image file3_predict>, “Probability”: <image file3_predict>}}
                      }
-
 ```
 <hr>
 
